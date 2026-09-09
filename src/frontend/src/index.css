@@ -73,22 +73,6 @@
     --sidebar-accent-foreground: 0.28 0.03 240;
     --sidebar-border: 0.9 0.01 240;
     --sidebar-ring: 0.42 0.14 240;
-
-    /* Admin editor — extends public tokens, never overrides them.
-       Status colors tuned for AA contrast on card surfaces. */
-    --admin-surface: 0.97 0.006 95;
-    --admin-surface-foreground: 0.21 0.02 240;
-    --admin-chrome: 0.99 0.004 95;
-    --admin-chrome-foreground: 0.21 0.02 240;
-    --status-draft: 0.62 0.04 75;
-    --status-draft-foreground: 0.24 0.02 75;
-    --status-draft-bg: 0.93 0.025 75;
-    --status-published: 0.52 0.12 160;
-    --status-published-foreground: 0.985 0.004 95;
-    --status-published-bg: 0.9 0.05 160;
-    --editor-toolbar: 0.985 0.004 95;
-    --editor-toolbar-border: 0.9 0.01 240;
-    --editor-content-bg: 1.0 0.003 95;
   }
 
   .dark {
@@ -132,21 +116,6 @@
     --sidebar-accent-foreground: 0.88 0.01 95;
     --sidebar-border: 0.32 0.02 240;
     --sidebar-ring: 0.72 0.13 220;
-
-    /* Admin editor — dark theme counterparts. */
-    --admin-surface: 0.22 0.02 240;
-    --admin-surface-foreground: 0.95 0.006 95;
-    --admin-chrome: 0.24 0.022 240;
-    --admin-chrome-foreground: 0.95 0.006 95;
-    --status-draft: 0.72 0.08 75;
-    --status-draft-foreground: 0.95 0.01 75;
-    --status-draft-bg: 0.3 0.04 75;
-    --status-published: 0.7 0.13 160;
-    --status-published-foreground: 0.16 0.02 240;
-    --status-published-bg: 0.28 0.05 160;
-    --editor-toolbar: 0.24 0.022 240;
-    --editor-toolbar-border: 0.32 0.02 240;
-    --editor-content-bg: 0.22 0.02 240;
   }
 
   * {
@@ -185,68 +154,5 @@
   .serif-display {
     font-family: var(--font-display);
     font-optical-sizing: auto;
-  }
-
-  /* Admin editor utilities — reuse public tokens, add status + chrome helpers. */
-  .admin-surface {
-    background-color: oklch(var(--admin-surface));
-    color: oklch(var(--admin-surface-foreground));
-  }
-  .admin-chrome {
-    background-color: oklch(var(--admin-chrome));
-    color: oklch(var(--admin-chrome-foreground));
-  }
-  .status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.25rem 0.625rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    line-height: 1;
-  }
-  .status-badge::before {
-    content: "";
-    width: 0.4375rem;
-    height: 0.4375rem;
-    border-radius: 9999px;
-    background-color: currentColor;
-  }
-  .status-draft {
-    background-color: oklch(var(--status-draft-bg));
-    color: oklch(var(--status-draft));
-  }
-  .status-published {
-    background-color: oklch(var(--status-published-bg));
-    color: oklch(var(--status-published));
-  }
-  .editor-toolbar {
-    background-color: oklch(var(--editor-toolbar));
-    border-bottom: 1px solid oklch(var(--editor-toolbar-border));
-  }
-  .editor-content {
-    background-color: oklch(var(--editor-content-bg));
-  }
-  .editor-content .ql-editor {
-    font-family: var(--font-body);
-    color: oklch(var(--foreground));
-    line-height: 1.75;
-    max-width: 42rem;
-  }
-  .editor-content .ql-editor h1,
-  .editor-content .ql-editor h2,
-  .editor-content .ql-editor h3 {
-    font-family: var(--font-display);
-    letter-spacing: -0.015em;
-  }
-  .editor-content .ql-toolbar {
-    border-color: oklch(var(--editor-toolbar-border));
-  }
-  .editor-content .ql-snow .ql-tooltip {
-    border-color: oklch(var(--border));
-    background-color: oklch(var(--popover));
-    color: oklch(var(--popover-foreground));
   }
 }

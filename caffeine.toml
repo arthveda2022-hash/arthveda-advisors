@@ -6,6 +6,3 @@ name = "my-app"
 
 [workspace]
 include = ["src/**"]
-
-[canisters.frontend]
-depends_on = ["backend"]

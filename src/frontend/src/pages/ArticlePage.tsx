@@ -1,17 +1,17 @@
-import type { Article as BackendArticle } from "@/backend";
 import { Seo } from "@/components/Seo";
 import { ArticleCard } from "@/components/blog/ArticleCard";
 import { Button } from "@/components/ui/button";
-import type { Article as StaticArticle } from "@/data/articles";
-import { useBackend } from "@/hooks/useBackend";
-import { useQuery } from "@tanstack/react-query";
+import {
+  type Article,
+  getArticleBySlug,
+  getLatestArticles,
+} from "@/data/articles";
 import { Link, useParams } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, Clock, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock } from "lucide-react";
 import { motion } from "motion/react";
 
 const SITE_URL = "https://arthveda-advisors-oe2.caffeine.xyz/";
 const RELATED_COUNT = 3;
-const PLACEHOLDER_IMAGE = "/assets/images/placeholder.svg";
 
 function formatDate(iso: string): string {
   const d = new Date(iso);
@@ -32,33 +32,8 @@ function initials(name: string): string {
     .toUpperCase();
 }
 
-/** Resolve a backend Article's cover image to a renderable URL. */
-function coverUrl(article: BackendArticle): string {
-  return article.coverImage?.getDirectURL() ?? PLACEHOLDER_IMAGE;
-}
-
-/**
- * Adapt a backend Article to the static Article shape used by ArticleCard.
- * readingTime bigint → number; coverImage ExternalBlob → direct URL string.
- */
-function toStaticArticle(article: BackendArticle): StaticArticle {
-  return {
-    slug: article.slug,
-    title: article.title,
-    excerpt: article.excerpt,
-    body: article.body,
-    coverImage: coverUrl(article),
-    coverAlt: article.coverAlt,
-    authorName: article.authorName,
-    authorRole: article.authorRole,
-    publishedDate: article.publishedDate,
-    readingTime: Number(article.readingTime),
-    tags: article.tags,
-  };
-}
-
-function buildArticleSchema(article: BackendArticle) {
-  const image = coverUrl(article);
+function buildArticleSchema(article: Article) {
+  const image = article.coverImage;
   const imageUrl = image.startsWith("http")
     ? image
     : `${SITE_URL}${image.replace(/^\//, "")}`;
@@ -97,55 +72,8 @@ function buildArticleSchema(article: BackendArticle) {
 export function ArticlePage() {
   const params = useParams({ from: "/blog/$slug" });
   const slug = params.slug;
-  const { actor, isFetching } = useBackend();
 
-  const articleQuery = useQuery<BackendArticle | null>({
-    queryKey: ["article", slug],
-    queryFn: async () => {
-      if (!actor) return null;
-      return actor.getPublishedArticle(slug);
-    },
-    enabled: !!actor && !isFetching,
-  });
-
-  // Fetch a few more than needed so we can drop the current article and
-  // still fill RELATED_COUNT slots.
-  const relatedQuery = useQuery<BackendArticle[]>({
-    queryKey: ["article", slug, "related"],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getLatestArticles(BigInt(RELATED_COUNT + 1));
-    },
-    enabled: !!actor && !isFetching,
-  });
-
-  const loading = articleQuery.isLoading || (isFetching && !articleQuery.data);
-  const article = articleQuery.data ?? null;
-
-  if (loading) {
-    return (
-      <>
-        <Seo
-          title="Loading article… | ArthVeda Advisors"
-          canonicalPath={`blog/${slug}`}
-        />
-        <section className="bg-background" aria-label="Loading article">
-          <div className="container flex min-h-[60vh] flex-col items-center justify-center gap-4 py-24 text-center">
-            <Loader2
-              className="size-6 animate-spin text-muted-foreground"
-              aria-hidden="true"
-            />
-            <p
-              className="text-sm text-muted-foreground"
-              data-ocid="article.loading_state"
-            >
-              Loading article…
-            </p>
-          </div>
-        </section>
-      </>
-    );
-  }
+  const article = getArticleBySlug(slug);
 
   if (!article) {
     return (
@@ -190,13 +118,12 @@ export function ArticlePage() {
   }
 
   const articleSchema = buildArticleSchema(article);
-  const cover = coverUrl(article);
-  const readingMinutes = Number(article.readingTime);
+  const cover = article.coverImage;
+  const readingMinutes = article.readingTime;
 
-  const related: StaticArticle[] = (relatedQuery.data ?? [])
+  const related = getLatestArticles(RELATED_COUNT + 1)
     .filter((a) => a.slug !== slug)
-    .slice(0, RELATED_COUNT)
-    .map(toStaticArticle);
+    .slice(0, RELATED_COUNT);
 
   return (
     <>

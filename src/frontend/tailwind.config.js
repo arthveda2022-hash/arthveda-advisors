@@ -21,10 +21,6 @@ export default {
         ring: "oklch(var(--ring) / <alpha-value>)",
         background: "oklch(var(--background))",
         foreground: "oklch(var(--foreground))",
-        "admin-surface": "oklch(var(--admin-surface))",
-        "admin-chrome": "oklch(var(--admin-chrome))",
-        "status-draft": "oklch(var(--status-draft) / <alpha-value>)",
-        "status-published": "oklch(var(--status-published) / <alpha-value>)",
         primary: {
           DEFAULT: "oklch(var(--primary) / <alpha-value>)",
           foreground: "oklch(var(--primary-foreground))",
@@ -87,26 +83,6 @@ export default {
         elevated: "0 4px 12px -2px oklch(0.21 0.02 240 / 0.08), 0 2px 6px -2px oklch(0.21 0.02 240 / 0.05)",
         card: "0 1px 3px -1px oklch(0.21 0.02 240 / 0.05), 0 1px 2px -1px oklch(0.21 0.02 240 / 0.03)",
         gold: "0 2px 8px -2px oklch(0.72 0.15 75 / 0.25)",
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-        "badge-pop": {
-          "0%": { transform: "scale(0.85)", opacity: "0" },
-          "60%": { transform: "scale(1.08)" },
-          "100%": { transform: "scale(1)", opacity: "1" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        "badge-pop": "badge-pop 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
       },
     },
   },

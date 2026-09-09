@@ -1,42 +1,21 @@
-import type { Article as BackendArticle } from "@/backend";
 import { Seo } from "@/components/Seo";
 import { ArticleCard } from "@/components/blog/ArticleCard";
 import { Button } from "@/components/ui/button";
-import type { Article as StaticArticle } from "@/data/articles";
-import { useBackend } from "@/hooks/useBackend";
+import {
+  ALL_TAGS,
+  type Article,
+  getArticlesByTag,
+  getArticlesSorted,
+} from "@/data/articles";
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
 import { Link, useSearch } from "@tanstack/react-router";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { useMemo } from "react";
 
 const SITE_URL = "https://arthveda-advisors-oe2.caffeine.xyz/";
-const PLACEHOLDER_IMAGE = "/assets/images/placeholder.svg";
-const SKELETON_IDS = ["a", "b", "c", "d", "e", "f"] as const;
 
-/**
- * Adapt a backend Article (bigint readingTime, optional ExternalBlob cover)
- * to the articles.ts Article shape that ArticleCard expects
- * (number readingTime, string coverImage).
- */
-function toCardArticle(article: BackendArticle): StaticArticle {
-  return {
-    slug: article.slug,
-    title: article.title,
-    excerpt: article.excerpt,
-    body: article.body,
-    coverImage: article.coverImage?.getDirectURL() ?? PLACEHOLDER_IMAGE,
-    coverAlt: article.coverAlt,
-    authorName: article.authorName,
-    authorRole: article.authorRole,
-    publishedDate: article.publishedDate,
-    readingTime: Number(article.readingTime),
-    tags: article.tags,
-  };
-}
-
-function buildBlogSchema(articles: BackendArticle[]) {
+function buildBlogSchema(articles: Article[]) {
   return {
     "@context": "https://schema.org",
     "@type": ["Blog", "CollectionPage"],
@@ -49,7 +28,7 @@ function buildBlogSchema(articles: BackendArticle[]) {
     isPartOf: { "@id": `${SITE_URL}#website` },
     publisher: { "@id": `${SITE_URL}#business` },
     blogPost: articles.map((article) => {
-      const cover = article.coverImage?.getDirectURL() ?? PLACEHOLDER_IMAGE;
+      const cover = article.coverImage;
       const imageUrl = cover.startsWith("http")
         ? cover
         : `${SITE_URL}${cover.replace(/^\//, "")}`;
@@ -72,34 +51,12 @@ function buildBlogSchema(articles: BackendArticle[]) {
 export function BlogPage() {
   const search = useSearch({ from: "/blog" });
   const activeTag = search.tag ?? null;
-  const { actor, isFetching } = useBackend();
 
-  const articlesQuery = useQuery<BackendArticle[]>({
-    queryKey: ["blogArticles", activeTag],
-    queryFn: async () => {
-      if (!actor) return [];
-      return activeTag
-        ? actor.getArticlesByTag(activeTag)
-        : actor.listPublishedArticles();
-    },
-    enabled: !!actor && !isFetching,
-  });
+  const articles = useMemo(() => {
+    return activeTag ? getArticlesByTag(activeTag) : getArticlesSorted();
+  }, [activeTag]);
 
-  const tagsQuery = useQuery<string[]>({
-    queryKey: ["allTags"],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.getAllTags();
-    },
-    enabled: !!actor && !isFetching,
-  });
-
-  const loading =
-    articlesQuery.isLoading || (isFetching && !articlesQuery.data);
-  const articles = articlesQuery.data ?? [];
-  const tags = tagsQuery.data ?? [];
-
-  const cardArticles = useMemo(() => articles.map(toCardArticle), [articles]);
+  const tags = ALL_TAGS;
 
   const blogSchema = useMemo(() => buildBlogSchema(articles), [articles]);
 
@@ -179,23 +136,10 @@ export function BlogPage() {
             })}
           </div>
 
-          {/* Grid / loading / empty */}
-          {loading ? (
-            <div
-              className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-              data-ocid="blog.loading_state"
-            >
-              {SKELETON_IDS.map((id, i) => (
-                <div
-                  key={`skeleton-${id}`}
-                  className="h-[22rem] animate-pulse rounded-xl border border-border/70 bg-card/60"
-                  data-ocid={`blog.skeleton.item.${i + 1}`}
-                />
-              ))}
-            </div>
-          ) : cardArticles.length > 0 ? (
+          {/* Grid / empty */}
+          {articles.length > 0 ? (
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {cardArticles.map((article, i) => (
+              {articles.map((article, i) => (
                 <ArticleCard
                   key={article.slug}
                   article={article}

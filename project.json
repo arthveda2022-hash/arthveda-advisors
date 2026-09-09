@@ -1,21 +1,20 @@
 {
-  "overview": "ArthVeda Advisors advisory website with a self-service admin blog editor for publishing finance articles without code.",
+  "overview": "ArthVeda Advisors advisory website — a frontend-only React site with a static blog authored as TypeScript data.",
   "features": [
-    "Internet Identity-protected admin editor at a hidden /admin URL",
-    "Create, edit, and delete finance blog articles with a rich text editor",
-    "Upload cover images from your computer for each article",
-    "Save drafts separately and publish when ready",
-    "Free-form tags for organizing articles",
-    "Public blog, article pages, and homepage latest section read from the backend",
-    "Existing sample articles seeded into the backend on first deploy"
+    "Public homepage with hero, services, about, contact, and latest articles sections",
+    "Blog listing with tag filtering by URL search param",
+    "Individual article pages with cover image, byline, and related articles",
+    "Articles authored as TypeScript data in src/frontend/src/data/articles.ts",
+    "SEO-ready: Open Graph tags, canonical URLs, JSON-LD structured data, sitemap",
+    "Light theme by default with a fully functional dark theme"
   ],
   "category": "blog",
   "tags": [
     "finance",
     "advisory",
-    "content-management",
-    "admin-editor",
-    "internet-identity"
+    "static-site",
+    "react",
+    "typescript"
   ],
   "last_updated": "2026-07-05T03:56:07.052Z"
 }

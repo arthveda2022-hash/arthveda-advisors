@@ -1,5 +1,4 @@
 import { Layout } from "@/components/Layout";
-import { AdminPage } from "@/pages/AdminPage";
 import { ArticlePage } from "@/pages/ArticlePage";
 import { BlogPage } from "@/pages/BlogPage";
 import { HomePage } from "@/pages/HomePage";
@@ -19,12 +18,8 @@ const rootRoute = createRootRoute({
 
 function RootComponent() {
   const router = useRouter();
-  // Scroll to top on route change (TanStack Router does not do this by default
-  // for client-side navigations). Anchor-based in-page scroll is handled in
-  // Header.tsx and the homepage sections.
   useEffect(() => {
     const unsubscribe = router.subscribe("onLoad", ({ toLocation }) => {
-      // Only scroll to top when navigating to a new pathname without a hash.
       if (!toLocation.hash && typeof window !== "undefined") {
         window.scrollTo({ top: 0, behavior: "auto" });
       }
@@ -61,18 +56,7 @@ const articleRoute = createRoute({
   component: ArticlePage,
 });
 
-const adminRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/admin",
-  component: AdminPage,
-});
-
-const routeTree = rootRoute.addChildren([
-  indexRoute,
-  blogRoute,
-  articleRoute,
-  adminRoute,
-]);
+const routeTree = rootRoute.addChildren([indexRoute, blogRoute, articleRoute]);
 
 export const router = createRouter({
   routeTree,
