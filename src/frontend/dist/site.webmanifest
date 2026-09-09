@@ -1,0 +1,16 @@
+{
+  "name": "ArthVeda Advisors",
+  "short_name": "ArthVeda",
+  "description": "Pune-based financial advisory firm offering GST registration, income tax filing, business registration, accounting, bookkeeping, trademark filing, and due diligence services.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2D5A5A",
+  "theme_color": "#2D5A5A",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

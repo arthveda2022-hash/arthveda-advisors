@@ -1,0 +1,117 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Result = 
+ variant {
+   err: Error;
+   ok;
+ };
+type ExternalBlob = blob;
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type ArticleStatus = 
+ variant {
+   draft;
+   published;
+ };
+type ArticleInput = 
+ record {
+   authorName: text;
+   authorRole: text;
+   body: text;
+   coverAlt: text;
+   coverImage: opt ExternalBlob;
+   excerpt: text;
+   publishedDate: text;
+   readingTime: nat;
+   slug: opt text;
+   status: ArticleStatus;
+   tags: vec text;
+   title: text;
+ };
+type Article = 
+ record {
+   authorName: text;
+   authorRole: text;
+   body: text;
+   coverAlt: text;
+   coverImage: opt ExternalBlob;
+   excerpt: text;
+   publishedDate: text;
+   readingTime: nat;
+   slug: text;
+   status: ArticleStatus;
+   tags: vec text;
+   title: text;
+ };
+service : {
+  __accessControlState: () -> (reserved) query;
+  __articles: (ko: opt text, count: opt nat) ->
+   (vec record {
+          text;
+          Article;
+        }) query;
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initialize_access_control: () -> ();
+  /// Object-storage mixin — provides `_immutableObjectStorage*` certificate
+  /// methods required for cover-image uploads.
+  _internet_identity_sign_in_finish: () -> (Result);
+  _internet_identity_sign_in_start: () -> (blob);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createArticle: (input: ArticleInput) -> (Article);
+  deleteArticle: (slug: text) -> (opt Article);
+  getAllTags: () -> (vec text) query;
+  getArticle: (slug: text) -> (opt Article);
+  getArticlesByTag: (tag: opt text) -> (vec Article) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getLatestArticles: (count: nat) -> (vec Article) query;
+  getPublishedArticle: (slug: text) -> (opt Article) query;
+  isCallerAdmin: () -> (bool) query;
+  listAllArticles: () -> (vec Article);
+  listPublishedArticles: () -> (vec Article) query;
+  updateArticle: (slug: text, input: ArticleInput) -> (opt Article);
+}

@@ -1,0 +1,77 @@
+// Version: 4.0.0
+type AccessControlState__152316813 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__246123559<Principal, UserRole__517421538>
+  };
+type ArticleStatus__1034467482 = {#draft; #published};
+type ArticleStatus__983704827 = {#draft; #published};
+type Article__704310621 =
+  {
+    authorName : Text;
+    authorRole : Text;
+    body : Text;
+    coverAlt : Text;
+    coverImage : ?Blob;
+    excerpt : Text;
+    publishedDate : Text;
+    readingTime : Nat;
+    slug : Text;
+    status : ArticleStatus__983704827;
+    tags : [Text];
+    title : Text
+  };
+type Article__854647936 =
+  {
+    authorName : Text;
+    authorRole : Text;
+    body : Text;
+    coverAlt : Text;
+    coverImage : ?ExternalBlob__675229786;
+    excerpt : Text;
+    publishedDate : Text;
+    readingTime : Nat;
+    slug : Text;
+    status : ArticleStatus__1034467482;
+    tags : [Text];
+    title : Text
+  };
+type Data__552063367<K, V> = {var count : Nat__93962160; kvs : [var ?(K, V)]};
+type ExternalBlob__675229786 = Blob;
+type Internal__455405067<K, V> =
+  {children : [var ?Node__279997185<K, V>]; data : Data__552063367<K, V>};
+type Leaf__114713147<K, V> = {data : Data__552063367<K, V>};
+type Map__190625089<K, V> = Map__719753394<K, V>;
+type Map__246123559<K, V> = Map__190625089<K, V>;
+type Map__719753394<K, V> =
+  {var root : Node__279997185<K, V>; var size : Nat__93962160};
+type Nat__920180692 = Nat;
+type Nat__93962160 = Nat__920180692;
+type NewActor__421701347 = {};
+type NewActor__829843891 =
+  {
+    accessControlState : AccessControlState__152316813;
+    articles : Map__246123559<Text, Article__704310621>
+  };
+type Node__279997185<K, V> =
+  {#internal : Internal__455405067<K, V>; #leaf : Leaf__114713147<K, V>};
+type OldActor__501796574 = {};
+type OldActor__761820472 = {};
+type UserRole__517421538 = {#admin; #guest; #user};
+type UserRole__686137147 = {#admin; #guest; #user};
+{
+  "20260629_000000" : (old : OldActor__761820472) -> NewActor__421701347;
+  "20260705_000000" : (old : OldActor__501796574) -> NewActor__829843891
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__246123559<Principal, UserRole__686137147>
+    };
+  stable articles :
+    {
+      var root : Node__279997185<Text, Article__854647936>;
+      var size : Nat__93962160
+    }
+};

@@ -1,0 +1,21 @@
+{
+  "overview": "ArthVeda Advisors advisory website with a self-service admin blog editor for publishing finance articles without code.",
+  "features": [
+    "Internet Identity-protected admin editor at a hidden /admin URL",
+    "Create, edit, and delete finance blog articles with a rich text editor",
+    "Upload cover images from your computer for each article",
+    "Save drafts separately and publish when ready",
+    "Free-form tags for organizing articles",
+    "Public blog, article pages, and homepage latest section read from the backend",
+    "Existing sample articles seeded into the backend on first deploy"
+  ],
+  "category": "blog",
+  "tags": [
+    "finance",
+    "advisory",
+    "content-management",
+    "admin-editor",
+    "internet-identity"
+  ],
+  "last_updated": "2026-07-05T03:56:07.052Z"
+}

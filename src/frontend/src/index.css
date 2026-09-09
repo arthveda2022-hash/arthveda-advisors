@@ -1,0 +1,252 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ArthVeda Advisors — "ArthVeda Established" design system
+   Light theme primary, deep teal-green for trust, warm gold accent for CTAs.
+   Fonts: Fraunces (display serif) + General Sans (body sans). Binary copy was
+   blocked, so we use Google Fonts @import plus system fallbacks. */
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-display: swap;
+  src: url("/assets/fonts/Fraunces.woff2") format("woff2"),
+    url("https://fonts.gstatic.com/s/fraunces/v32/6NUh8FyLNQOQZAnv9bYEvDiIdE9UaQ.woff2")
+    format("woff2");
+}
+@font-face {
+  font-family: "General Sans";
+  font-style: normal;
+  font-display: swap;
+  src: url("/assets/fonts/GeneralSans.woff2") format("woff2"), local("Inter"),
+    local("system-ui");
+}
+
+@layer base {
+  :root {
+    --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+    --font-body: "General Sans", "Inter", system-ui, -apple-system, "Segoe UI",
+      sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+    --radius: 0.625rem;
+
+    /* Light theme — cool off-white base with subtle warm undertones */
+    --background: 0.985 0.004 95;
+    --foreground: 0.21 0.02 240;
+    --card: 1.0 0.003 95;
+    --card-foreground: 0.21 0.02 240;
+    --popover: 1.0 0.003 95;
+    --popover-foreground: 0.21 0.02 240;
+
+    --primary: 0.42 0.14 240;
+    --primary-foreground: 0.985 0.004 95;
+
+    --secondary: 0.95 0.012 240;
+    --secondary-foreground: 0.28 0.03 240;
+    --muted: 0.95 0.012 240;
+    --muted-foreground: 0.52 0.018 240;
+
+    --accent: 0.72 0.15 75;
+    --accent-foreground: 0.21 0.02 240;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.985 0.004 95;
+
+    --border: 0.9 0.01 240;
+    --input: 0.9 0.01 240;
+    --ring: 0.42 0.14 240;
+
+    --chart-1: 0.42 0.14 240;
+    --chart-2: 0.72 0.15 75;
+    --chart-3: 0.55 0.1 200;
+    --chart-4: 0.6 0.12 160;
+    --chart-5: 0.5 0.08 280;
+
+    --sidebar: 0.97 0.006 95;
+    --sidebar-foreground: 0.21 0.02 240;
+    --sidebar-primary: 0.42 0.14 240;
+    --sidebar-primary-foreground: 0.985 0.004 95;
+    --sidebar-accent: 0.93 0.03 75;
+    --sidebar-accent-foreground: 0.28 0.03 240;
+    --sidebar-border: 0.9 0.01 240;
+    --sidebar-ring: 0.42 0.14 240;
+
+    /* Admin editor — extends public tokens, never overrides them.
+       Status colors tuned for AA contrast on card surfaces. */
+    --admin-surface: 0.97 0.006 95;
+    --admin-surface-foreground: 0.21 0.02 240;
+    --admin-chrome: 0.99 0.004 95;
+    --admin-chrome-foreground: 0.21 0.02 240;
+    --status-draft: 0.62 0.04 75;
+    --status-draft-foreground: 0.24 0.02 75;
+    --status-draft-bg: 0.93 0.025 75;
+    --status-published: 0.52 0.12 160;
+    --status-published-foreground: 0.985 0.004 95;
+    --status-published-bg: 0.9 0.05 160;
+    --editor-toolbar: 0.985 0.004 95;
+    --editor-toolbar-border: 0.9 0.01 240;
+    --editor-content-bg: 1.0 0.003 95;
+  }
+
+  .dark {
+    /* Dark theme — deep forest-charcoal base */
+    --background: 0.18 0.018 240;
+    --foreground: 0.95 0.006 95;
+    --card: 0.22 0.02 240;
+    --card-foreground: 0.95 0.006 95;
+    --popover: 0.24 0.022 240;
+    --popover-foreground: 0.95 0.006 95;
+
+    --primary: 0.72 0.13 220;
+    --primary-foreground: 0.16 0.02 240;
+
+    --secondary: 0.27 0.022 240;
+    --secondary-foreground: 0.88 0.01 95;
+    --muted: 0.27 0.022 240;
+    --muted-foreground: 0.62 0.015 95;
+
+    --accent: 0.78 0.14 75;
+    --accent-foreground: 0.18 0.02 240;
+
+    --destructive: 0.62 0.2 22;
+    --destructive-foreground: 0.16 0.02 240;
+
+    --border: 0.32 0.02 240;
+    --input: 0.32 0.02 240;
+    --ring: 0.72 0.13 220;
+
+    --chart-1: 0.72 0.13 220;
+    --chart-2: 0.78 0.14 75;
+    --chart-3: 0.65 0.12 200;
+    --chart-4: 0.6 0.1 160;
+    --chart-5: 0.55 0.1 280;
+
+    --sidebar: 0.22 0.02 240;
+    --sidebar-foreground: 0.95 0.006 95;
+    --sidebar-primary: 0.72 0.13 220;
+    --sidebar-primary-foreground: 0.16 0.02 240;
+    --sidebar-accent: 0.3 0.04 75;
+    --sidebar-accent-foreground: 0.88 0.01 95;
+    --sidebar-border: 0.32 0.02 240;
+    --sidebar-ring: 0.72 0.13 220;
+
+    /* Admin editor — dark theme counterparts. */
+    --admin-surface: 0.22 0.02 240;
+    --admin-surface-foreground: 0.95 0.006 95;
+    --admin-chrome: 0.24 0.022 240;
+    --admin-chrome-foreground: 0.95 0.006 95;
+    --status-draft: 0.72 0.08 75;
+    --status-draft-foreground: 0.95 0.01 75;
+    --status-draft-bg: 0.3 0.04 75;
+    --status-published: 0.7 0.13 160;
+    --status-published-foreground: 0.16 0.02 240;
+    --status-published-bg: 0.28 0.05 160;
+    --editor-toolbar: 0.24 0.022 240;
+    --editor-toolbar-border: 0.32 0.02 240;
+    --editor-content-bg: 0.22 0.02 240;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "ss01", "cv01", "cv02";
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .gold-underline {
+    background-image: linear-gradient(
+      transparent 60%,
+      oklch(0.72 0.15 75 / 0.28) 60%
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+  .serif-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
+  /* Admin editor utilities — reuse public tokens, add status + chrome helpers. */
+  .admin-surface {
+    background-color: oklch(var(--admin-surface));
+    color: oklch(var(--admin-surface-foreground));
+  }
+  .admin-chrome {
+    background-color: oklch(var(--admin-chrome));
+    color: oklch(var(--admin-chrome-foreground));
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+  .status-badge::before {
+    content: "";
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: 9999px;
+    background-color: currentColor;
+  }
+  .status-draft {
+    background-color: oklch(var(--status-draft-bg));
+    color: oklch(var(--status-draft));
+  }
+  .status-published {
+    background-color: oklch(var(--status-published-bg));
+    color: oklch(var(--status-published));
+  }
+  .editor-toolbar {
+    background-color: oklch(var(--editor-toolbar));
+    border-bottom: 1px solid oklch(var(--editor-toolbar-border));
+  }
+  .editor-content {
+    background-color: oklch(var(--editor-content-bg));
+  }
+  .editor-content .ql-editor {
+    font-family: var(--font-body);
+    color: oklch(var(--foreground));
+    line-height: 1.75;
+    max-width: 42rem;
+  }
+  .editor-content .ql-editor h1,
+  .editor-content .ql-editor h2,
+  .editor-content .ql-editor h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
+  }
+  .editor-content .ql-toolbar {
+    border-color: oklch(var(--editor-toolbar-border));
+  }
+  .editor-content .ql-snow .ql-tooltip {
+    border-color: oklch(var(--border));
+    background-color: oklch(var(--popover));
+    color: oklch(var(--popover-foreground));
+  }
+}
